@@ -1,12 +1,13 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import bcrypt from "bcryptjs"
 import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
 import moment from "moment";
 import MDEditor from '@uiw/react-md-editor';
 import {CheckOutlined  } from '@ant-design/icons';
-import {Button, message, Modal, Radio,Select  } from 'antd';
+import {Button, Card, Input, message, Modal, Radio, Select} from 'antd';
 import {httpInfo} from "../context/https";
+import Editor from 'for-editor'
 const Write =()=>{
     const state = useLocation().state;
     let tagsinfo=[]
@@ -150,15 +151,48 @@ const Write =()=>{
         const doc = new DOMParser().parseFromString(html, "text/html")
         return doc.body.textContent
     }
+    //编辑器添加图片
+
+        const addImg=async (file)=>{
+            const salt=0
+            let hash2=''
+            if(file){hash2=file.name
+                hash2=bcrypt.hashSync(hash,salt);
+                hash2=hash2+'.png'
+            }
+            let renameReportFile2 =new File([file],hash2,{type:"image/png"});
+            const formData =new FormData()
+            formData.append("file",renameReportFile2)
+            const res =await axios.post(httpInfo+"/upload2",formData)
+            setValue(value+`![${file.name}](${httpInfo }/${res.data})`)
+        }
+
+
     return<div className='writediv'>
         <Modal centered={true} title="注意" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText="确认" cancelText="取消">
             <p>确认要发布吗？</p>
         </Modal>
         <div className='writecontent'>
-            <div className='titlediv'><p>标题:</p><input type="text" value={getText(title)} placeholder='请输入标题' onChange={e=>setTitle(e.target.value)}/></div>
-            <div className='titlediv'><p>简介:</p><input type="text" placeholder='请输入简介' value={getText(intro)} onChange={e=>setIntro(e.target.value)}/></div>
+            <div className='titlediv'><p>标题:</p><Input type="text" value={getText(title)} placeholder='请输入标题' onChange={e=>setTitle(e.target.value)}/></div>
+            <div className='titlediv'><p>简介:</p><Input type="text" placeholder='请输入简介' value={getText(intro)} onChange={e=>setIntro(e.target.value)}/></div>
             <div className="editorContainer">
-                <MDEditor  height={506} className="editor" theme="snow" value={value} onChange={setValue} />
+                <Editor addImg={(file) => addImg(file)} toolbar={{
+                    h1: true, // h1
+                    h2: true, // h2
+                    h3: true, // h3
+                    h4: true, // h4
+                    img: true, // 图片
+                    link: true, // 链接
+                    code: true, // 代码块
+                    preview: true, // 预览
+                    expand: true, // 全屏
+                    /* v0.0.9 */
+                    undo: true, // 撤销
+                    redo: true, // 重做
+                    save: false, // 保存
+                    /* v0.2.3 */
+                    subfield: true, // 单双栏模式
+                }} className="editor" height='500px' subfield={true} preview={true} theme="snow" value={value} onChange={setValue} />
             </div>
         </div>
         <div className='menu'>
@@ -174,8 +208,7 @@ const Write =()=>{
                     setimgvalue('')
                 }}>取消上传</Button></label></div>}
             </div>
-            <div className='item2'>
-                <h1>请选择上传组别</h1>
+            <Card title='请选择上传组别' className='item2'>
                 <div className="cat">
                     <Radio.Group name="radiogroup" defaultValue={catinfo}>
                         {options.map((item) => (
@@ -188,9 +221,8 @@ const Write =()=>{
                         ))}
                     </Radio.Group>
                 </div>
-            </div>
-            <div className='item3'>
-                <h1>请添加文章标签</h1>
+            </Card>
+            <Card title='请添加文章标签' className='item3'>
                 <div className='tagDiv'>
                     <div className='listDiv'>
                         <Select
@@ -207,7 +239,7 @@ const Write =()=>{
                         />
                     </div>
                 </div>
-            </div>
+            </Card>
             <div className='uploadButton'>
             <Button size='large' onClick={()=>{message.info('肥肠抱歉,保存草稿功能还在完善中>_<')}}>保存草稿</Button>
             <Button

@@ -149,15 +149,19 @@ const Home =()=>{
         </div>
         <div className='CheckboxDiv'>
             <Card title="筛 选"  className='CardDiv'>
+                <p>按标签</p>
                 <Checkbox defaultChecked={false} onChange={onCheckAllChange} checked={checkAll}>
                     全选
                 </Checkbox>
-                <Divider />
                 <Checkbox.Group style={{ width: '100%' }} defaultChecked={true} value={checkedList} onChange={onChange}>
                     <Row style={{gap:'10px'}}>
                         {boxs}
                     </Row>
                 </Checkbox.Group>
+                <Divider/>
+                <p>按时间</p>
+                <Divider/>
+                <p>按作者</p>
             </Card>
         </div>
     </div>

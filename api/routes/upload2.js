@@ -4,7 +4,7 @@ import multer from "multer";
 const router =express.Router()
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "./img");
+        cb(null, "./img2");
     },
     filename: function (req, file, cb) {
 
@@ -12,9 +12,9 @@ const storage = multer.diskStorage({
     },
 });
 
-const upload = multer({ storage });
+const upload2 = multer({ storage });
 
-router.post("/", upload.single("file"), function (req, res) {
+router.post("/", upload2.single("file"), function (req, res) {
     const file = req.file;
     let x
     if(file) x=file.filename
