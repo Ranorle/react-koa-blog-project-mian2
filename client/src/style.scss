@@ -1,0 +1,642 @@
+$lightGreen: #b9e7e7;
+.app{
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+
+  .container{
+    width: 100vw;
+    .link{
+      text-decoration: none;
+      color: inherit;
+    }
+    //注册和登录界面
+    .auth{
+      height: 100vh;
+      width: 100vw;
+      background-image: url("./img/background.png");
+      -webkit-background-size: cover;
+      //background-position: center center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      .pagefootinfo2{
+        //margin-top: 60px;
+        padding-top: 55px;
+        display: flex;
+        justify-content: center;
+        .beian2{
+          display: flex;
+          justify-content: center;
+          a{
+            display:inline-block;
+            text-decoration:none;
+            height:0px;
+            line-height:20px;
+          }
+          img{
+            float:left;
+          }
+          p{
+            font-size: 13px;
+            float:left;
+            height:16px;
+            line-height:16px;
+            margin: 0px 0px 0px 4px;
+            color:lightgray;
+          }
+        }
+      }
+      .authDiv {
+        height:600px;
+        width: 800px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.23);
+        display: flex;
+        flex-direction: row;
+        .carouselDiv{
+          height: 100%;
+          width: 65%;
+          border: 1px solid #555;
+          //display: flex;
+          //align-items: center;
+          //justify-content: center;
+          img{
+            min-width:520px;
+            max-height: 601.144px;
+          }
+          .carousel{
+            height: 601.144px;
+            color: #fff;
+            lineHeight: 128px;
+            textAlign:center;
+            background: #364d79;
+          }
+        }
+        .inputDiv {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          height: 100%;
+          width: 35%;
+          background-color: white;
+
+          h1 {
+            font-size: 18.4px;
+            color: #555;
+            font-style: italic;
+            font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+            margin-bottom: 16px;
+          }
+          h2{
+            padding-top: 24px;
+            font-size: 21.6px;
+            color: teal;
+
+            margin-bottom: 16px;
+          }
+          img{
+          max-width: 100%;
+            padding-bottom: 40px;
+          }
+          form {
+            display: flex;
+            flex-direction: column;
+            padding: 32px;
+            gap: 16px;
+
+            button {
+              padding: 8px;
+              border: none;
+              background-color: teal;
+              cursor: pointer;
+              color: white;
+            }
+
+            p {
+              font-size: 9.6px;
+              color: red;
+              text-align: center;
+            }
+
+            span {
+              font-size: 9.6px;
+              text-align: center;
+            }
+          }
+        }
+      }
+      }
+    .navbar{
+      height: 69.672px;
+      .container{
+        max-width: 100vw;
+        height: 69.672px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow:0 4px 3px 0 rgba(0, 0, 0, 0.0005), 0 6px 1px 0 rgba(0, 0, 0, 0.04);
+        .logo{
+          min-width: 250px;
+          padding-left: 24px;
+          img{
+            width:112px;
+          }
+        }
+        .links{
+          height: 69.672px;
+          padding-right: 32px;
+          display:flex ;
+          align-items: center;
+          gap:16px;
+          .linksDiv{
+            height: 69.672px;
+            display: flex;
+            flex-direction: row;
+            .linkDiv{
+              height: 69.672px;
+              width:70.4px;
+              transition: all .4s;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              h6{
+                font-size: 19.2px;
+                font-weight: 240;
+              }
+            }
+            .linkDiv:hover {
+              height: 69.672px;
+              background-color: rgba(0, 0, 0, 0.3);
+              width: 80px;
+             shadow: 0 1px 2px -2px rgb(0 0 0 / 16%), 0 3px 6px 0 rgb(0 0 0 / 12%), 0 5px 12px 4px rgb(0 0 0 / 9%);
+              transition: all .4s;
+              cursor: pointer;
+            }
+          }
+          .navuserinfo{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap:16px;
+            p{
+              cursor: pointer;
+              font-size: 16px;
+              font-weight: 240;
+            }
+            img{
+              cursor: pointer;
+              width:40px;
+              height:40px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+}
+
+}
+.pagefootinfo{
+  margin-top: 56px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  .beian{
+    display: flex;
+    justify-content: center;
+    a{
+      display:inline-block;
+      text-decoration:none;
+      height:16px;
+      line-height:16px;
+    }
+    img{
+      float:left;
+    }
+    p{
+      font-size: 13px;
+      float:left;
+      height:16px;
+      line-height:16px;
+      margin: 0px 0px 0px 5px;
+      color:black;
+    }
+  }
+}
+.home{
+  min-height: 65vh;
+  padding-left:96px;
+  display: flex;
+  flex-direction: row;
+
+  .posts{
+    margin-top:14.4px;
+    display: flex;
+    flex-direction: column;
+  justify-content: center;
+    width: 72vw;
+    .postsDiv {
+    min-height: 70vh;
+
+      .CardDivs:hover {
+        background-color: white;
+        width: 63vw;
+        height: 110px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.06), 0 6px 20px 0 rgba(0, 0, 0, 0.06);
+        border-style: solid;
+        border-color: rgba(0,0,0,0.15);
+        border-width: 1.2px;
+        transition: all .2s;
+        cursor: pointer;
+      }
+
+      .CardDivs {
+        color: black;
+        font-style: normal;
+        text-decoration: rgba(255, 255, 255, 0);
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        background-color: white;
+        width: 63vw;
+        height: 110px;
+        margin: 12px 12.6px;
+        border-style: solid;
+        border-color: rgba(0,0,0,0.15);
+        border-width: 1.2px;
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.03), 0 4px 20px 0 rgba(0, 0, 0, 0.03);
+        transition: all .2s;
+
+        .CardImg {
+          margin: 6.4px;
+          width: 144px;
+          height: 94.8px;
+
+          .BlogImg {
+            width: 100%;
+            height: 100%;
+          }
+
+          .Empty {
+            border: 1px solid #555;
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        .CardInfo {
+          display: flex;
+          flex-direction: column;
+
+          .CardTitle {
+            justify-content: center;
+            align-items: center;
+            padding: 6px 0px 0px 14px;
+
+            span {
+              font-size: 24px;
+              font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+            }
+
+            height: 48px;
+            width: calc(63vw - 160px);
+          }
+
+          .CardInfomin {
+            display: flex;
+            flex-direction: column;
+
+            .CardComment {
+              height: 48px;
+              color: gray;
+              padding: 0px 0 0 16px;
+              font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+
+              .p1 {
+                font-size: 13px;
+              }
+
+              .p2 {
+                font-size: 14px;
+                margin-top: 6px;
+
+                span {
+                  margin-right: 8px;
+                }
+              }
+            }
+
+            .CardInfodet {
+              color: gray;
+              padding: 0 6px 0 0;
+              height: 17.6px;
+              text-align: right;
+              line-height: 16px;
+              font-size: 12.6px;
+              font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.single{
+  margin-top: 30px;
+  display: flex;
+  margin-left: 100px;
+  margin-right: 100px;
+  gap:40px;
+
+  .singlecontent{
+    flex:4;
+    display: flex;
+    flex-direction: column;
+    min-width: 740px;
+    max-width:740px;
+    img{
+      width:100%;
+      height:240px;
+      object-fit: cover;
+    }
+    .user{
+      margin-top:24px ;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      img{
+        width:50px;
+        height:50px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      span{
+        font-weight: bold;
+      }
+    }
+    .edit{
+      display: flex;
+      gap:5px;
+    }
+    .introAndTags{
+      display: flex;
+      flex-direction: column;
+      gap:15px;
+      .tagSpan{
+        font-size: 12px;
+        color: #555;
+      }
+      .introSpan{
+        font-size: 12px;
+        color: #555;
+        .y{
+          color: #555;
+          margin-left: 10px;
+        font-size: 18px;
+      }
+      }
+    }
+    .titled{
+      margin-top: 10px;
+      display: flex;
+      justify-content: start;
+      align-items: start;
+    .hh{
+      font-size: 25px;
+      font-weight: 400;
+      font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+      color:black;
+    }}
+    p{
+      text-align: justify;
+      line-height:30px;
+    }
+  }
+  //.menu{
+  //  margin-top:50px;
+  //  margin-left: 50px;
+  //  display: flex;
+  //  flex-direction: column;
+  //  justify-content: center;
+  //  align-items: center;
+  //  gap:25px;
+  //  min-width: 250px;
+  //  max-width: 250px;
+  //
+  //  h1{
+  //    font-size: 20px;
+  //    color: #555;
+  //  }
+  //  .post{
+  //    width: 240px;
+  //    display: flex;
+  //    flex-direction: column;
+  //    gap:10px;
+  //    img{
+  //      width:100%;
+  //      height:160px;
+  //      object-fit: cover;
+  //    }
+  //    h2{
+  //      color:#555;
+  //    }
+  //    button{
+  //      width: max-content;
+  //      align-items: center;
+  //      padding: 10px 20px;
+  //      border:1px solid teal;
+  //      background-color: white;
+  //      cursor:pointer;
+  //      font-size: 16px;
+  //      color: teal;
+  //      &:hover{
+  //        background-color: teal;
+  //        color: black;
+  //      }
+  //    }
+  //  }
+  //}
+}
+.writediv{
+  margin-left: 64px;
+  margin-right:64px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  gap:5vw;
+  max-width: 100vw;
+  min-height: 70vh;
+  .writecontent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:10px;
+    width:60vw;
+    .titlediv{
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      p{
+        font-size: 13px;
+      }
+      span{
+        font-size: 16px;
+      }
+    }
+    input{
+      width:56vw;
+      padding: 8px;
+      border:1px solid lightgray;
+    }
+    .editorContainer{
+
+      width:60vw;
+      //border-bottom: 1px solid lightgray;
+      .editor{
+        width: 60vw;
+        border: none;
+      }
+    }
+  }
+  .menu{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    width:30vw;
+    height: 576px;
+    .item1{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      color:#555;
+      height: 24vh;
+      .uploadDiv{
+        height: 100%;
+        width: 100%;
+        .label1{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          width: 100%;
+          border: #555555 1px dashed;
+          p{
+            font-size: 16px;
+            text-align: center;
+          }
+        }
+      }
+    }
+    .item2{
+      border: 1px solid lightgray;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color:#555;
+      height: 14vh;
+      min-height: 80px;
+      max-height: 96px;
+      h1{
+        font-size: 20px;
+      }
+      .cat{
+        margin-top: 16px;
+      }
+    }
+    .item3{
+      border: 1px solid lightgray;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color:#555;
+      height: 55vh;
+      min-height: 80px;
+      //max-height: 120px;
+      h1{
+        font-size: 20px;
+      }
+      .cat{
+        margin-top: 16px;
+      }
+      .tagDiv{
+      display: flex;
+        flex-direction: column;
+        margin-top: 16px;
+        gap:16px;
+        width: 100%;
+        height: 100%;
+        .listDiv{
+          margin-left: 15px;
+          margin-right: 15px;
+          //.ant-select-selector{
+          //  height: 120px;
+          //  display: flex;
+          //  align-items: start;
+          //  .ant-select-selection-placeholder{
+          //    align-items: center;
+          //  }
+          //}
+      }
+    }
+    }
+    .uploadButton{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      Button{
+        margin-left: 16px;
+        margin-right: 16px;
+        font-size: 14.4px;
+      }
+    }
+  }
+}
+.pageNationDiv{
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .t-pagination{
+    justify-content: center;
+    .t-pagination__number.t-is-current{
+      //background-color: white;
+      //color: #555;
+    }
+  }
+}
+.CheckboxDiv{
+  margin-top: 20px;
+  width: 28vw;
+  .CardDiv{
+  width:270px;
+    min-height: 250px;
+  }
+}
+.rightdiv{
+  display: flex;
+  flex-direction: column;
+  .nav-container {
+    margin-left: 40px;
+    right: 10px;
+    top: 60px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+    transform: translate(0, 0);
+    transition: transform 500ms ease;
+  }
+}
