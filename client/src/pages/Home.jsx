@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import axios  from "axios";
 import {Empty, Tag, Card, Checkbox, Row, Col, Divider} from "antd"
 import dayjs from "dayjs";
 import { Pagination } from 'tdesign-react';
 import 'tdesign-react/es/style/index.css';
 import {httpInfo} from "../context/https";
+import ReactLive2d from "react-live2d";
 const Home =()=>{
     let f=[]
     const [posts,setPosts] = useState([])
@@ -38,6 +39,8 @@ const Home =()=>{
         if(post.tags) f.push(...post.tags.split(','))
     })
     f=(Array.from(new Set(f)))
+    //
+    //处理多选框
     const checkboxs =()=>{
         let i=0
         return f.map((prop)=>{
@@ -55,39 +58,49 @@ const Home =()=>{
         setCheckedList(list);
         setCheckAll(list.length === f.length);
     };
-    // console.log(checkedList)
     const onCheckAllChange = (e) => {
         setCheckedList(e.target.checked ? f : []);
         setCheckAll(e.target.checked);
     };
-
+    const boxs=checkboxs()
+    //处理多选框
+    //
+    //处理出现html标签的问题
     const getText = (html) =>{
         const doc = new DOMParser().parseFromString(html, "text/html")
         return doc.body.textContent
     }
+    //处理出现html标签的问题
+    //
+    //数据预处理
     let postData1=[]
     let postData2=[]
-    function handlePosts1(){
-        for(let i=0;i<posts.length;i++){
-            let bool=false
-            for(let t=0;t<checkedList.length;t++){
-                if(posts[i].tags.split(',').includes(checkedList[t])){
-                    bool=true
-                    break
+    function handlePosts(){
+        function handlePosts1(){
+            for(let i=0;i<posts.length;i++){
+                let bool=false
+                for(let t=0;t<checkedList.length;t++){
+                    if(posts[i].tags.split(',').includes(checkedList[t])){
+                        bool=true
+                        break
+                    }
                 }
+                if(bool)postData1.push(posts[i])
             }
-            if(bool)postData1.push(posts[i])
         }
-    }
-    handlePosts1()
-    // console.log(postData1)
-    const pageSize=10
-    function handlePosts2(){
-        for(let i=page*pageSize-pageSize;(i<page*pageSize && i!==postData1.length);i++) {
-            postData2[i]=postData1[i]
+        handlePosts1()
+        // console.log(postData1)
+        function handlePosts2(){
+            const pageSize=10
+            for(let i=page*pageSize-pageSize;(i<page*pageSize && i!==postData1.length);i++) {
+                postData2[i]=postData1[i]
+            }
         }
+        handlePosts2()
     }
-    handlePosts2()
+    handlePosts()
+    //数据预处理
+
     let Cards= postData2.reverse().map((post)=>{
             let t=[]
             function a(){
@@ -106,7 +119,7 @@ const Home =()=>{
             })
            return<Link key={post.id} className='CardDivs' to={`/post/${post.id}`}>
                 <div className='CardImg'>
-                    {post.img &&<img className='BlogImg' src={httpInfo+`/${post.img}`}></img>}
+                    {post.img &&<img className='BlogImg' src={httpInfo+`/${post.img}`} alt={post.img}></img>}
                     {!post.img &&<div className='Empty'><Empty description='' image={Empty.PRESENTED_IMAGE_SIMPLE} /></div>}
                 </div>
                 <div className='CardInfo'>
@@ -123,7 +136,6 @@ const Home =()=>{
         })
 
 
-    const boxs=checkboxs()
 
     return<div className='home'>
         <div className='posts'>

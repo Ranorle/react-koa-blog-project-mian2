@@ -22,10 +22,9 @@ app.use("/api/auth",authRoutes)
 app.use("/api/users",userRoutes)
 app.use("/api/posts",postRoutes)
 
-app.use((req, res) => {
-    res.sendFile(path.resolve('./build/index.html'))
+app.use('*',(req,res)=>{
+    res.redirect('/')
 })
-
 
 app.listen(8800,()=>{
     console.log("connected!")
