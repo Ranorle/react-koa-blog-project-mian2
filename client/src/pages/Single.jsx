@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {DeleteOutlined,EditOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, StarFilled, StarOutlined} from "@ant-design/icons";
 import {Button,Tag,Divider,FloatButton,Affix,Modal,message } from "antd";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
@@ -12,9 +12,28 @@ import remarkGfm from "remark-gfm";
 import 'github-markdown-css'
 import 'markdown-navbar/dist/navbar.css';
 import {httpInfo} from "../context/https";
+//获取元素在数组的下标
 
+Array.prototype.indexOf = function(val) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] == val) {
+            return i;
+        };
+    }
+    return -1;
+};
+
+//根据数组的下标，删除该下标的元素
+Array.prototype.remove = function(val) {
+    var index = this.indexOf(val);
+    if (index > -1) {
+        this.splice(index, 1);
+    }
+};
 const Single =()=>{
-    const [post,setPost] = useState({tags:''})
+    const [icon,setIcon]=useState(<StarOutlined style={{color:'#777'}}/>)
+    const [iconbool,seticonbool]=useState(false)
+    const [post,setPost] = useState({tags:'',collection: ''})
     const location = useLocation()
     const navigate=useNavigate()
     const postId =location.pathname.split("/")[2]
@@ -25,17 +44,24 @@ const Single =()=>{
         "email": "",
         "img": ""
     }
-
-
+//解决收藏问题
+//    if(post.collection.split(',').includes(`${post.id}`)) setIcon(<StarFilled>)
 
     useEffect(()=>{
         const fetchData = async () => {
             try {
                 const res = await axios.get(httpInfo+`/posts/${postId}`);
                 setPost(res.data);
+                if(res.data.collection.split(',').includes(`${res.data.id}`)){
+                    setIcon(<StarFilled style={{color:'#ffd700'}}/>)
+                    seticonbool(true)
+                    // console.log('设置收藏成功')
+                    // console.log('yes')
+                }
             } catch (err) {
                 console.log(err);
             }
+
         };
         fetchData()
     },[postId])
@@ -55,7 +81,6 @@ const Single =()=>{
             console.log(err)
         }
     }
-
     //--------------------------------------对话框处理
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -98,7 +123,39 @@ const Single =()=>{
             <h1 className='hh' dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(post.title),
             }}
-            ></h1></div>
+            ></h1>
+                <Button icon={icon} onClick={async ()=>{
+                    if(!iconbool){
+                        let x=post.collection.split(',')
+                        x.push(`${post.id}`)
+                        x=Array.from(new Set(x))
+                        x=x.toString();
+                        try{
+                            await axios.post(httpInfo+`/collection`,{x,currentUser})
+                            setIcon(<StarFilled style={{color:'#ffd700'}}/>)
+                            seticonbool(true)
+                            message.success('收藏成功！')
+                        }catch(err){
+                            if(err) console.log(err)
+                        }
+                    }
+                    if(iconbool){
+                        let x=post.collection.split(',')
+                        x.remove(`${post.id}`)
+                        x=Array.from(new Set(x))
+                        x=x.toString();
+                        try{
+                            await axios.post(httpInfo+`/collection`,{x,currentUser})
+                            setIcon(<StarOutlined style={{color:'#777'}}/>)
+                            seticonbool(false)
+                            message.info('取消收藏')
+                        }catch(err){
+                            if(err) console.log(err)
+                        }
+
+                    }
+                }}>收藏</Button>
+            </div>
             <div className='user'>
                 {post.userImg &&<img src={post.userImg}/>}
             <div className="info">

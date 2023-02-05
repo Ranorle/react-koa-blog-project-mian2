@@ -3,7 +3,8 @@ $lightGreen: #b9e7e7;
   display: flex;
   justify-content: center;
   width: 100vw;
-
+  background-size: 100% 100%;
+  background-attachment: fixed;
   .container{
     width: 100vw;
     .link{
@@ -251,7 +252,7 @@ $lightGreen: #b9e7e7;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.06), 0 6px 20px 0 rgba(0, 0, 0, 0.06);
         border-style: solid;
         border-color: rgba(0,0,0,0.15);
-        border-width: 1.2px;
+        border-width: 1px;
         transition: all .2s;
         cursor: pointer;
       }
@@ -270,7 +271,7 @@ $lightGreen: #b9e7e7;
         margin: 16px 0 16px 12px;
         border-style: solid;
         border-color: rgba(0,0,0,0.15);
-        border-width: 1.2px;
+        border-width: 1px;
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.03), 0 4px 20px 0 rgba(0, 0, 0, 0.03);
         transition: all .2s;
 
@@ -412,7 +413,7 @@ $lightGreen: #b9e7e7;
     .titled{
       margin-top: 10px;
       display: flex;
-      justify-content: start;
+      justify-content: space-between;
       align-items: start;
     .hh{
       font-size: 25px;
@@ -484,8 +485,9 @@ $lightGreen: #b9e7e7;
     flex-direction: column;
     align-items: center;
     gap:10px;
-    width:60vw;
+    width:58vw;
     min-width: 600px;
+    z-index: 1;
     .titlediv{
       width: 100%;
       display: flex;
@@ -516,11 +518,12 @@ $lightGreen: #b9e7e7;
     }
   }
   .menu{
+    max-width: 300px;
+    min-width: 300px;
     margin-top: 30px;
     display: flex;
     flex-direction: column;
     gap:16px;
-    width:30vw;
     height: 576px;
     .item1{
       display: flex;

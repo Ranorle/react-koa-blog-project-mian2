@@ -20,7 +20,9 @@ const Write =()=>{
     }
     a()
     // console.log(tagsinfo)
+    console.log(state)
     const navagate=useNavigate()
+    const[status,setStatus]=useState(state?.status)
     const [value, setValue] = useState(state?.desc || "");
     const [title, setTitle] = useState(state?.title || "");
      const [file, setFile] = useState(null);
@@ -108,6 +110,7 @@ const Write =()=>{
                     date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
                     tags:tagInfo,
                     intro:intro,
+                    status:status,
                 token:token,
                 })
                 : await axios.post(httpInfo+`/posts/`, {
@@ -118,6 +121,7 @@ const Write =()=>{
                     date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
                    tags:tagInfo,
                     intro:intro,
+                    status:status,
                 token:token,
                 });
             message.success('发布成功');
@@ -210,15 +214,29 @@ const Write =()=>{
             </div>
             <Card title='请选择上传组别' className='item2'>
                 <div className="cat">
-                    <Radio.Group name="radiogroup" defaultValue={catinfo}>
+                    <Radio.Group  name="radiogroup1" defaultValue={catinfo}>
                         {options.map((item) => (
-                            <Radio key={item.value}  onChange={(value) => {
+                            <Radio.Button key={item.value}  onChange={(value) => {
                                 // console.log(value)
                                 setCat(value.target.value)}}
                                    value={item.value} >
                                 {item.label}
-                            </Radio>
+                            </Radio.Button>
                         ))}
+                    </Radio.Group>
+                </div>
+            </Card>
+            <Card title='请选择公开状态' className='item2'>
+                <div className="cat">
+                    <Radio.Group  name="radiogroup2" onChange={(value)=>{console.log(value.target.value)
+                    setStatus(value.target.value)
+                    }} defaultValue={status}>
+                        <Radio.Button value={1} >
+                            公开
+                        </Radio.Button>
+                        <Radio.Button value={0} >
+                            私人
+                        </Radio.Button>
                     </Radio.Group>
                 </div>
             </Card>

@@ -1,22 +1,59 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Link, useLocation} from "react-router-dom";
 import axios  from "axios";
-import {Empty, Tag, Card, Checkbox, Row, Col, Divider} from "antd"
+import {Empty, Tag, Card, Checkbox, Row, Col, Divider, DatePicker, ConfigProvider} from "antd"
 import dayjs from "dayjs";
+import 'dayjs/locale/zh-cn';
+import locale from 'antd/es/date-picker/locale/zh_CN';
 import { Pagination } from 'tdesign-react';
 import 'tdesign-react/es/style/index.css';
 import {httpInfo} from "../context/https";
-import ReactLive2d from "react-live2d";
+import {AuthContext} from "../context/authContext";
+import {d} from "@pmmmwh/react-refresh-webpack-plugin/types/options";
+const { RangePicker } = DatePicker;
+//时间筛选设置
+const rangePresets = [
+    {
+        label: '直到昨天',
+        value: [dayjs().add(-1, 'd'), dayjs()],
+    },
+    {
+        label: '过去一周',
+        value: [dayjs().add(-7, 'd'), dayjs()],
+    },
+    {
+        label: '过去一个月',
+        value: [dayjs().add(-30, 'd'), dayjs()],
+    },
+    {
+        label: '过去三个月',
+        value: [dayjs().add(-90, 'd'), dayjs()],
+    },
+    {
+        label: '过去一年',
+        value: [dayjs().add(-365, 'd'), dayjs()],
+    },
+    {
+        label: '过去三年',
+        value: [dayjs().add(-1096, 'd'), dayjs()],
+    }
+
+];
 const Home =()=>{
     let f=[]
     const [posts,setPosts] = useState([])
     const cat = useLocation().search
+    const {currentUser} = useContext(AuthContext)
+    const [dateStrings,setdateStrings]=useState([])
+    const [other,setOther]=useState([])
     useEffect(()=>{
         const fetchData=async ()=>{
             try{
                 let res
-                if(cat) res=await axios.get(httpInfo+`/posts${cat}`)
-                if(!cat) res=await axios.get(httpInfo+`/posts?cat=blogs`)
+                if(currentUser && cat){res=await axios.get(httpInfo+`/posts${cat}&id=${currentUser.id}`)}
+                if(currentUser && !cat){res=await axios.get(httpInfo+`/posts?cat=blogs&id=${currentUser.id}`)}
+                if(!currentUser && cat){res=await axios.get(httpInfo+`/posts${cat}`)}
+                if(!currentUser && !cat){res=await axios.get(httpInfo+`/posts?cat=blogs`)}
                 let x=res.data
                 let y=[]
                 x.map((e)=>{
@@ -75,6 +112,8 @@ const Home =()=>{
     //数据预处理
     let postData1=[]
     let postData2=[]
+    let postData3=[]
+    let postData4=[]
     function handlePosts(){
         function handlePosts1(){
             for(let i=0;i<posts.length;i++){
@@ -87,21 +126,54 @@ const Home =()=>{
                 }
                 if(bool)postData1.push(posts[i])
             }
+
         }
         handlePosts1()
-        // console.log(postData1)
         function handlePosts2(){
-            const pageSize=10
-            for(let i=page*pageSize-pageSize;(i<page*pageSize && i!==postData1.length);i++) {
-                postData2[i]=postData1[i]
+            const date1=new Date(dateStrings[0])
+            const date2=new Date(dateStrings[1])
+            for(let p=0;p<postData1.length;p++){
+                let date=new Date(postData1[p].date)
+                if(date.getTime()>date1.getTime() &&date.getTime()<date2.getTime()){
+                    postData2.push(postData1[p])
+                }
             }
         }
-        handlePosts2()
+        if(dateStrings) handlePosts2()
+        if(dateStrings.length===0) postData2=postData1
+        function handlePosts3(){
+            let data1=[]
+            let data2=[]
+            let data3=[]
+           if(other.includes('myself')){
+               for (let r=0;r<postData2.length;r++){
+                   if(currentUser.id===postData2.uid){
+                       data1.push(postData2[r])
+                   }
+               }
+           }
+           if(!(other.includes('myself'))) data1=postData2
+            if(other.includes('collection')){
+                for (let x=0;x<data1.length;x++){
+                    if(data1){
+                        data2.push(data1[x])
+                    }
+                }
+            }
+        }
+        handlePosts3()
+        console.log(postData1)
+        function handlePosts4(){
+            const pageSize=10
+            for(let i=page*pageSize-pageSize;(i<page*pageSize && i!==postData2.length);i++) {
+                postData4[i]=postData2[i]
+            }
+        }
+        handlePosts4()
     }
     handlePosts()
     //数据预处理
-
-    let Cards= postData2.reverse().map((post)=>{
+    let Cards= postData4.reverse().map((post)=>{
             let t=[]
             function a(){
                 let v=[]
@@ -160,8 +232,26 @@ const Home =()=>{
                 </Checkbox.Group>
                 <Divider/>
                 <p>按时间</p>
+                <RangePicker locale={locale} presets={rangePresets} onChange={
+                    (dates, dateStrings) => {
+                        setdateStrings(dateStrings)
+                    }
+                } />
                 <Divider/>
-                <p>按作者</p>
+                <p>其它</p>
+                <Checkbox.Group style={{ width: '100%' }} onChange={(e)=>{setOther(e)}}>
+                    <Row style={{gap:'10px'}}>
+                        <Col>
+                            <Checkbox value='myself' >只看自己的</Checkbox>
+                        </Col>
+                        <Col>
+                            <Checkbox value='collection' >只看收藏的</Checkbox>
+                        </Col>
+                        <Col>
+                            <Checkbox value='open' >只看公开的</Checkbox>
+                        </Col>
+                    </Row>
+                </Checkbox.Group>
             </Card>
         </div>
     </div>
