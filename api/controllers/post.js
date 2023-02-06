@@ -3,10 +3,10 @@ import jwt from "jsonwebtoken"
 import fs from "fs"
 export const getPosts=(req,res)=>{
     console.log(req.query)
-    const q1=req.query.cat ? "SELECT u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 OR `status`=0 AND `cat`= ? AND p.uid=?"
-        :"SELECT u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 OR `status`=0 AND `cat`= ? AND p.uid=?"
-    const q2=req.query.cat ? "SELECT u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 "
-        :"SELECT u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 "
+    const q1=req.query.cat ? "SELECT status, u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 OR `status`=0 AND `cat`= ? AND p.uid=?"
+        :"SELECT status, u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 OR `status`=0 AND `cat`= ? AND p.uid=?"
+    const q2=req.query.cat ? "SELECT status, u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 "
+        :"SELECT status, u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 "
         if(req.query.id)db.query(q1,[req.query.cat,req.query.cat,req.query.id],(err,data)=>{
     if (err) return res.status(500).send(err)
         return res.status(200).json(data)

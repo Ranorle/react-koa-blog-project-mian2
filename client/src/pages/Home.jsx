@@ -9,7 +9,6 @@ import { Pagination } from 'tdesign-react';
 import 'tdesign-react/es/style/index.css';
 import {httpInfo} from "../context/https";
 import {AuthContext} from "../context/authContext";
-import {d} from "@pmmmwh/react-refresh-webpack-plugin/types/options";
 const { RangePicker } = DatePicker;
 //时间筛选设置
 const rangePresets = [
@@ -144,10 +143,9 @@ const Home =()=>{
         function handlePosts3(){
             let data1=[]
             let data2=[]
-            let data3=[]
            if(other.includes('myself')){
                for (let r=0;r<postData2.length;r++){
-                   if(currentUser.id===postData2.uid){
+                   if(`${currentUser.id}`===`${postData2[r].uid}`){
                        data1.push(postData2[r])
                    }
                }
@@ -155,24 +153,33 @@ const Home =()=>{
            if(!(other.includes('myself'))) data1=postData2
             if(other.includes('collection')){
                 for (let x=0;x<data1.length;x++){
-                    if(data1){
+                    if(currentUser.collection.split(',').includes(`${data1[x].id}`)){
                         data2.push(data1[x])
                     }
+
                 }
             }
+            if(!(other.includes('collection'))) data2=data1
+            if(other.includes('open')){
+                for(let m=0;m<data2.length;m++){
+                    if(data2[m].status===1)postData3.push(data2[m])
+                }
+            }
+            if(!(other.includes('open'))) postData3=data2
         }
         handlePosts3()
-        console.log(postData1)
+        // console.log(postData1)
         function handlePosts4(){
             const pageSize=10
-            for(let i=page*pageSize-pageSize;(i<page*pageSize && i!==postData2.length);i++) {
-                postData4[i]=postData2[i]
+            for(let i=page*pageSize-pageSize;(i<page*pageSize && i!==postData3.length);i++) {
+                postData4[i]=postData3[i]
             }
         }
         handlePosts4()
     }
     handlePosts()
     //数据预处理
+    // console.log(currentUser.collection.split(','))
     let Cards= postData4.reverse().map((post)=>{
             let t=[]
             function a(){
