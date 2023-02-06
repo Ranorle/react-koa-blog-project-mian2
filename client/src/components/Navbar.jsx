@@ -50,7 +50,7 @@ const Navbar =()=>{
     return<div className='navbar'>
         {contextHolder}
         {contextHolder2}
-        <div className='container'>
+        <div className='container1'>
             <div className='logo'>
                 <Link to="/" onClick={()=>{
                     setstyle1({color:"lightblue",fontWeight:"800",})

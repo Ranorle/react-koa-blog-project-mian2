@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Link, useLocation} from "react-router-dom";
 import axios  from "axios";
-import {Empty, Tag, Card, Checkbox, Row, Col, Divider, DatePicker, ConfigProvider} from "antd"
+import {Empty, Tag, Card, Checkbox, Row, Col, Divider, DatePicker,} from "antd"
 import dayjs from "dayjs";
 import 'dayjs/locale/zh-cn';
 import locale from 'antd/es/date-picker/locale/zh_CN';
@@ -12,6 +12,10 @@ import {AuthContext} from "../context/authContext";
 const { RangePicker } = DatePicker;
 //时间筛选设置
 const rangePresets = [
+    {
+        label: '今日',
+        value:[dayjs().add(0,'d'),dayjs().add(1,'d')]
+    },
     {
         label: '直到昨天',
         value: [dayjs().add(-1, 'd'), dayjs()],

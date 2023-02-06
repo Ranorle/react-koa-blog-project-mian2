@@ -80,7 +80,7 @@ const Login =()=>{
             <Input.Password required size="large" type="text" placeholder='password' name='password' onChange={handleChange}/>
             <button onClick={handleSubmit}>Login</button>
             {/*{err && <p>{err}</p>}*/}
-            <span>没有账户？<Link to="/register">注册一个</Link></span>
+            <span>没有账户？<Link to="/register">注册一个（未开放）</Link></span>
         </form>
         </div>
     </div>
