@@ -27,6 +27,10 @@ app.use("/api/users",userRoutes)
 app.use("/api/posts",postRoutes)
 app.use("/api/collection",collectionRoutes)
 
+app.use('*',(req,res)=>{
+    res.redirect('/')
+})
+
 app.listen(8800,()=>{
     console.log("connected!")
 })

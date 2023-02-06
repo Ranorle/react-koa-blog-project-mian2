@@ -39,7 +39,7 @@ const Single =()=>{
     const postId =location.pathname.split("/")[2]
     let {currentUser} =useContext(AuthContext)
     if(currentUser===null) currentUser={ //为解决currentUser不存在会导致single页面无法显示的bug
-        "id": 0,
+        "id": -1,
         "username": "",
         "email": "",
         "img": ""
@@ -124,37 +124,37 @@ const Single =()=>{
                 __html: DOMPurify.sanitize(post.title),
             }}
             ></h1>
-                <Button icon={icon} onClick={async ()=>{
-                    if(!iconbool){
-                        let x=post.collection.split(',')
+                {currentUser.id!==-1 && <Button icon={icon} onClick={async () => {
+                    if (!iconbool) {
+                        let x = post.collection.split(',')
                         x.push(`${post.id}`)
-                        x=Array.from(new Set(x))
-                        x=x.toString();
-                        try{
-                            await axios.post(httpInfo+`/collection`,{x,currentUser})
-                            setIcon(<StarFilled style={{color:'#ffd700'}}/>)
+                        x = Array.from(new Set(x))
+                        x = x.toString();
+                        try {
+                            await axios.post(httpInfo + `/collection`, {x, currentUser})
+                            setIcon(<StarFilled style={{color: '#ffd700'}}/>)
                             seticonbool(true)
                             message.success('收藏成功！')
-                        }catch(err){
-                            if(err) console.log(err)
+                        } catch (err) {
+                            if (err) console.log(err)
                         }
                     }
-                    if(iconbool){
-                        let x=post.collection.split(',')
+                    if (iconbool) {
+                        let x = post.collection.split(',')
                         x.remove(`${post.id}`)
-                        x=Array.from(new Set(x))
-                        x=x.toString();
-                        try{
-                            await axios.post(httpInfo+`/collection`,{x,currentUser})
-                            setIcon(<StarOutlined style={{color:'#777'}}/>)
+                        x = Array.from(new Set(x))
+                        x = x.toString();
+                        try {
+                            await axios.post(httpInfo + `/collection`, {x, currentUser})
+                            setIcon(<StarOutlined style={{color: '#777'}}/>)
                             seticonbool(false)
                             message.info('取消收藏')
-                        }catch(err){
-                            if(err) console.log(err)
+                        } catch (err) {
+                            if (err) console.log(err)
                         }
 
                     }
-                }}>收藏</Button>
+                }}>收藏</Button>}
             </div>
             <div className='user'>
                 {post.userImg &&<img src={post.userImg}/>}

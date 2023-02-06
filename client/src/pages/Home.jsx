@@ -167,8 +167,8 @@ const Home =()=>{
             }
             if(!(other.includes('open'))) postData3=data2
         }
-        handlePosts3()
-        // console.log(postData1)
+        if(currentUser)handlePosts3()
+        if(!currentUser)postData3=postData2
         function handlePosts4(){
             const pageSize=10
             for(let i=page*pageSize-pageSize;(i<page*pageSize && i!==postData3.length);i++) {
@@ -244,21 +244,23 @@ const Home =()=>{
                         setdateStrings(dateStrings)
                     }
                 } />
-                <Divider/>
-                <p>其它</p>
-                <Checkbox.Group style={{ width: '100%' }} onChange={(e)=>{setOther(e)}}>
-                    <Row style={{gap:'10px'}}>
+                {currentUser && <Divider/>}
+                {currentUser && <p>其它</p>}
+                {currentUser && <Checkbox.Group style={{width: '100%'}} onChange={(e) => {
+                    setOther(e)
+                }}>
+                    <Row style={{gap: '10px'}}>
                         <Col>
-                            <Checkbox value='myself' >只看自己的</Checkbox>
+                            <Checkbox value='myself'>只看自己的</Checkbox>
                         </Col>
                         <Col>
-                            <Checkbox value='collection' >只看收藏的</Checkbox>
+                            <Checkbox value='collection'>只看收藏的</Checkbox>
                         </Col>
                         <Col>
-                            <Checkbox value='open' >只看公开的</Checkbox>
+                            <Checkbox value='open'>只看公开的</Checkbox>
                         </Col>
                     </Row>
-                </Checkbox.Group>
+                </Checkbox.Group>}
             </Card>
         </div>
     </div>
