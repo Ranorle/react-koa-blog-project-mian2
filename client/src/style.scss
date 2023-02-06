@@ -142,8 +142,15 @@ $lightGreen: #b9e7e7;
         justify-content: space-between;
         box-shadow:0 4px 3px 0 rgba(0, 0, 0, 0.0005), 0 6px 1px 0 rgba(0, 0, 0, 0.04);
         .logo{
-          min-width: 250px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          min-width: 530px;
           padding-left: 24px;
+          .searchInput{
+          margin-left: 60px;
+
+          }
           img{
             width:112px;
           }
@@ -184,11 +191,19 @@ $lightGreen: #b9e7e7;
             flex-direction: row;
             align-items: center;
             justify-content: center;
-            gap:16px;
+            gap:12px;
+            a{
+              text-decoration:none;
+              color: #555;
+              button{
+                padding: 0;
+              }
+            }
             p{
               cursor: pointer;
               font-size: 16px;
               font-weight: 240;
+
             }
             img{
               cursor: pointer;
@@ -499,6 +514,12 @@ $lightGreen: #b9e7e7;
       align-items: center;
       justify-content: center;
       gap: 20px;
+      Input{
+        min-width: 540px;
+      }
+      .text{
+        min-width: 40px;
+      }
       p{
         font-size: 13px;
       }
@@ -661,4 +682,50 @@ $lightGreen: #b9e7e7;
     width: 300px;
     min-height: 300px;
   }
+}
+.searchContent{
+  width: 450px;
+  min-height: 150px;
+  max-height: 360px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  .SingleResult:hover{
+    border:1.2px solid #1677ff;
+    border-radius:3px;
+    transition: 0.3s;
+    cursor:pointer;
+  }
+  hr:last-child{
+    border-color: white;
+  }
+
+}
+.SingleResult{
+  transition: 0.3s;
+  padding: 3px 5px 5px 10px;
+  width: 100%;
+  height: 60px;
+  border: 1.2px solid white;
+  border-radius:3px;
+ background: none;
+
+  h3{
+    font-size: 18px;
+    color: #222;
+   background: none;
+  }
+  p{
+    font-size: 13px;
+    color: #777;
+    background: none;
+  }
+}
+.searchHr{
+  //border:none;
+  height: 1px;
+  border-style: dashed;
+  border-width: 0.5px;
+  border-color: rgba(0,0,0,0.1);
 }

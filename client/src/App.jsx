@@ -1,4 +1,4 @@
-import {createBrowserRouter, RouterProvider,Outlet,} from "react-router-dom";
+import {createBrowserRouter, RouterProvider, Outlet, BrowserRouter,Routes,Route} from "react-router-dom";
 import ReactLive2d from 'react-live2d';
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar"
 import Footer from "./components/Footer";
 import "./style.scss"
 import React from "react";
+import PersonalPage from "./pages/PersonalPage";
 const Layout =()=>{
     return(
         <>
@@ -37,8 +38,8 @@ const router=createBrowserRouter([
                 element:<Write/>,
             },
             {
-                path:"/",
-                element:<Home/>,
+                path:"/personal",
+                element:<PersonalPage/>,
             },
         ]
 },
@@ -58,8 +59,9 @@ const router=createBrowserRouter([
         path:"/single",
         element:<Single/>,
     },
-])
 
+])
+console.log(router)
 function App() {
   return (
     <div className="app">

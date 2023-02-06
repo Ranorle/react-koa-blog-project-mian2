@@ -8,7 +8,9 @@ import {CheckOutlined  } from '@ant-design/icons';
 import {Button, Card, Input, message, Modal, Radio, Select} from 'antd';
 import {httpInfo} from "../context/https";
 import Editor from 'for-editor'
+const { TextArea } = Input;
 const Write =()=>{
+
     const state = useLocation().state;
     let tagsinfo=[]
     function a(){
@@ -20,7 +22,7 @@ const Write =()=>{
     }
     a()
     // console.log(tagsinfo)
-    console.log(state)
+    // console.log(state)
     const navagate=useNavigate()
     const[status,setStatus]=useState(state?.status)
     const [value, setValue] = useState(state?.desc || "");
@@ -80,10 +82,10 @@ const Write =()=>{
     let hash=''
     if(file){hash=file.name
         hash=bcrypt.hashSync(hash,salt);
-    hash=hash+'.png'
+    hash=hash+'.jpg'
     }
 
-    let renameReportFile =new File([file],hash,{type:"image/png"});
+    let renameReportFile =new File([file],hash,{type:"image/jpg"});
 
     const upload= async (e)=>{
 
@@ -177,8 +179,8 @@ const Write =()=>{
             <p>确认要发布吗？</p>
         </Modal>
         <div className='writecontent'>
-            <div className='titlediv'><p>标题:</p><Input type="text" value={getText(title)} placeholder='请输入标题' onChange={e=>setTitle(e.target.value)}/></div>
-            <div className='titlediv'><p>简介:</p><Input type="text" placeholder='请输入简介' value={getText(intro)} onChange={e=>setIntro(e.target.value)}/></div>
+            <div className='titlediv'><div className='text'><p>标题:</p></div><Input type="text" value={getText(title)} placeholder='请输入标题' onChange={e=>setTitle(e.target.value)}/></div>
+            <div className='titlediv'><div className='text'><p>简介:</p></div><TextArea style={{width:'100%'}} showCount maxLength={50} type="text" placeholder='请输入简介' value={getText(intro)} onChange={e=>setIntro(e.target.value)}/></div>
             <div className="editorContainer">
                 <Editor addImg={(file) => addImg(file)} toolbar={{
                     h1: true, // h1

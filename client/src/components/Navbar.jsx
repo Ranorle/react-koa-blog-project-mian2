@@ -1,15 +1,49 @@
-import React, {useContext, useState} from "react";
-import {Link} from "react-router-dom";
+import React, {useContext, useEffect, useState} from "react";
+import {Link, useLocation} from "react-router-dom";
 import Logo1 from "../img/logo1.png"
 import Logo2 from "../img/logo2.png"
 import {AuthContext} from "../context/authContext";
-import {Button, message, notification, Space} from "antd";
-import {EditOutlined} from "@ant-design/icons";
+import {Button, message, notification, Space, Popover, Input} from "antd";
+import {EditOutlined, SearchOutlined, UserOutlined} from "@ant-design/icons";
+import axios from "axios";
+import {httpInfo} from "../context/https";
 
 const Navbar =()=>{
     const [messageApi, contextHolder2] = message.useMessage();
     const [api, contextHolder] = notification.useNotification();
     const {currentUser,logout} = useContext(AuthContext)
+    const [posts,setPosts] = useState([])
+    const [value,setValue]=useState('')
+    console.log(value)
+    const cat = useLocation().search
+    useEffect(()=>{
+        const fetchData=async ()=>{
+            try{
+                let res
+                if(currentUser && cat){res=await axios.get(httpInfo+`/posts${cat}&id=${currentUser.id}`)}
+                if(currentUser && !cat){res=await axios.get(httpInfo+`/posts?cat=blogs&id=${currentUser.id}`)}
+                if(!currentUser && cat){res=await axios.get(httpInfo+`/posts${cat}`)}
+                if(!currentUser && !cat){res=await axios.get(httpInfo+`/posts?cat=blogs`)}
+                setPosts(res.data)
+            }catch(err){
+                console.log(err)
+            }
+        }
+        fetchData()
+    },[cat])
+    console.log(posts)
+
+    const content = ()=>{
+        const singleResults=posts.map((prop)=>{
+            return(<div key={prop.id-10000}><Link key={prop.id} to={`/post/${prop.id}`}><div className='SingleResult' key={prop.id}><h3>{prop.title}</h3><p>{prop.introduction}</p> </div>
+            </Link><hr key={prop.id-99999} className='searchHr'/></div>
+            )
+        })
+        return<div className='searchContent'>
+            {/*<div className='SingleResult'></div>*/}
+            {singleResults}
+        </div>
+    }
 
     const openNotification =  () => {
         const key = `open${Date.now()}`;
@@ -61,6 +95,12 @@ const Navbar =()=>{
                     <img src={Logo1} />
                     <img src={Logo2}/>
                 </Link>
+                <div className='searchInput'><Popover trigger='focus' content={content}><Input
+                    placeholder="输入关键字搜索..."
+                    prefix={<SearchOutlined style={{color:'#999'}}/>}
+                    bordered={false}
+                    onChange={(e)=>{setValue(e.target.value)}}
+                /></Popover></div>
             </div>
             <div className='links'>
                 <div className='linksDiv'>
@@ -90,9 +130,23 @@ const Navbar =()=>{
                 }}><h6 style={style4}>游戏</h6></div></Link>
                 </div>
                 {currentUser && <div className='navuserinfo'>
-                    <img src={currentUser.img}/>
-                    <p>{currentUser?.username}</p>
+                    <Link to='/personal'>
+                    <img src={currentUser.img} alt='User'/>
+                    </Link>
+                    <Link to='/personal'>
+                    <div>{currentUser?.username}</div>
+                    </Link>
+                    <Link to='/personal'>
+                    <Button style={{border:0}} size='middle' type="link" icon={<UserOutlined />} onClick={()=>{
+                        setstyle1({color:""})
+                        setstyle2({color:""})
+                        setstyle3({color:""})
+                        setstyle4({color:""})
+                    }
+                    }>进入个人主页</Button>
+                    </Link>
                 </div>}
+
                 {currentUser ? <Button  shape="round" onClick={openNotification}>登出</Button> :<Link className='link' to="/login"><Button shape="round">登录</Button></Link>}
                 {currentUser && <Link className='link' to="/write"><Button style={{border:0}} size='large' shape="primary" icon={<EditOutlined /> } onClick={()=>{
                     setstyle1({color:""})
