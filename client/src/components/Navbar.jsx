@@ -3,7 +3,7 @@ import {Link, useLocation} from "react-router-dom";
 import Logo1 from "../img/logo1.png"
 import Logo2 from "../img/logo2.png"
 import {AuthContext} from "../context/authContext";
-import {Button, message, notification, Space, Popover, Input} from "antd";
+import {Button, message, notification, Space, Popover, Input, Empty,Affix} from "antd";
 import {EditOutlined, SearchOutlined, UserOutlined} from "@ant-design/icons";
 import axios from "axios";
 import {httpInfo} from "../context/https";
@@ -14,7 +14,6 @@ const Navbar =()=>{
     const {currentUser,logout} = useContext(AuthContext)
     const [posts,setPosts] = useState([])
     const [value,setValue]=useState('')
-    console.log(value)
     const cat = useLocation().search
     useEffect(()=>{
         const fetchData=async ()=>{
@@ -31,14 +30,23 @@ const Navbar =()=>{
         }
         fetchData()
     },[cat])
-    console.log(posts)
-
+    const searchPosts=[]
+    if(posts.length!==0){
+        for(let i=0;i<posts.length;i++){
+           const patt=new RegExp(value)
+            if(patt.test(posts[i].title) || patt.test(posts[i].introduction)){
+                searchPosts.push({id:posts[i].id,title:posts[i].title,introduction:posts[i].introduction})
+            }
+        }
+    }
     const content = ()=>{
-        const singleResults=posts.map((prop)=>{
+        let singleResults
+        if(searchPosts.length!==0) singleResults=searchPosts.map((prop)=>{
             return(<div key={prop.id-10000}><Link key={prop.id} to={`/post/${prop.id}`}><div className='SingleResult' key={prop.id}><h3>{prop.title}</h3><p>{prop.introduction}</p> </div>
             </Link><hr key={prop.id-99999} className='searchHr'/></div>
             )
         })
+        if(!singleResults) singleResults=<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='未找到相关数据' />
         return<div className='searchContent'>
             {/*<div className='SingleResult'></div>*/}
             {singleResults}
@@ -81,7 +89,7 @@ const Navbar =()=>{
     const [style4,setstyle4]=useState({})
     // console.log(currentUser)
     // console.log(style)
-    return<div className='navbar'>
+    return<Affix offsetTop={0.000001}><div className='navbar'>
         {contextHolder}
         {contextHolder2}
         <div className='container1'>
@@ -134,7 +142,7 @@ const Navbar =()=>{
                     <img src={currentUser.img} alt='User'/>
                     </Link>
                     <Link to='/personal'>
-                    <div>{currentUser?.username}</div>
+                    <div><p>{currentUser?.username}</p></div>
                     </Link>
                     <Link to='/personal'>
                     <Button style={{border:0}} size='middle' type="link" icon={<UserOutlined />} onClick={()=>{
@@ -157,6 +165,6 @@ const Navbar =()=>{
                 }>Write</Button></Link>}
             </div>
         </div>
-    </div>
+    </div></Affix>
 }
 export default Navbar

@@ -10,6 +10,10 @@ import Footer from "./components/Footer";
 import "./style.scss"
 import React from "react";
 import PersonalPage from "./pages/PersonalPage";
+import UserInfo from "./PersonalComponents/userInfo";
+import ArticleControl from "./PersonalComponents/articleControl";
+import CollectionInfo from "./PersonalComponents/collectionInfo";
+import DataInfo from "./PersonalComponents/dataInfo";
 const Layout =()=>{
     return(
         <>
@@ -40,6 +44,19 @@ const router=createBrowserRouter([
             {
                 path:"/personal",
                 element:<PersonalPage/>,
+                children:[{
+                    path:'/personal/',
+                    element:<UserInfo/>,
+                },{
+                    path:'/personal/control',
+                    element:<ArticleControl/>,
+                },{
+                    path:'/personal/collection',
+                    element:<CollectionInfo/>,
+                },{
+                    path:'/personal/data',
+                    element:<DataInfo/>,
+                },],
             },
         ]
 },
