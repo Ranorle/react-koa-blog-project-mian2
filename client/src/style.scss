@@ -765,26 +765,36 @@ $lightGreen: #b9e7e7;
     }
   }
 }
-.PersonalContentInfo{
-  .changeDiv{
-    padding: 50px 0px 0px 80px;
-    display: flex;
-    flex-direction: row;
-    gap:40px
-  }
-height: 600px;
-  .baseInfo{
-    display: flex;
-    flex-direction: row;
-    padding: 50px 0px 0px 60px;
-    .baseInfotext{
+.PersonalContentInfo {
+  width: 100%;
+  height: 600px;
+  .usercuurentinfo {
+    width: 100%;
+    height: 200px;
+    .changeDiv {
+      padding: 50px 0px 0px 80px;
       display: flex;
-      flex-direction: column;
-    margin-left: 30px;
-      gap:10px;
-      p{
-        font-size: 14px;
-        color: #777;
+      flex-direction: row;
+      gap: 40px
+    }
+
+
+
+    .baseInfo {
+      display: flex;
+      flex-direction: row;
+      padding: 50px 0px 0px 60px;
+
+      .baseInfotext {
+        display: flex;
+        flex-direction: column;
+        margin-left: 30px;
+        gap: 10px;
+
+        p {
+          font-size: 14px;
+          color: #777;
+        }
       }
     }
   }

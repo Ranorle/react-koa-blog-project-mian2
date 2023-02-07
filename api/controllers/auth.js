@@ -1,6 +1,7 @@
 import {db} from "../db.js"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import fs from "fs";
 export const register=(req,res)=>{
 //check existing user
     const q ="SELECT * FROM users WHERE email = ? OR username = ?"
@@ -45,10 +46,38 @@ export const login=(req,res)=>{
 }
 export const logout=(req,res)=>{
 res
-    // .clearCookie("access_token",{
-    // sameSite:"none",
-    //     secure:true
-    // })
     .status(200).json("用户注销成功")
 
+}
+export const updateinfo=(req,res)=>{
+    const token = req.body.token
+    if (!token) return res.status(401).json("Not authenticated!");
+    jwt.verify(token,"jwtkey",(err,userInfo)=>{
+        if(err) return res.status(403).json("身份认证不合法")
+        const q="UPDATE users SET `username`=? ,`signal`=?,`email`=? WHERE `id` = ?";
+        db.query(q,[req.body.values.username,req.body.values.signal,req.body.values.email,userInfo.id],(err,data)=>{
+            if(err)console.log(err)
+        })
+        // console.log(req.body.values)
+        const q2 = "SELECT * FROM users WHERE id = ?"
+        db.query(q2,[userInfo.id],(err,data)=>{
+            if(err)console.log(err)
+            const {password,...other} =data[0] //过滤数据库密码c
+            other.token=token
+            // console.log(other)
+            res.status(200).json(other)
+        })
+    })
+}
+export const passwordchange=(req,res)=>{
+    const token = req.body.token
+    if (!token) return res.status(401).json("Not authenticated!");
+    jwt.verify(token,"jwtkey",(err,userInfo)=>{
+        if(err) return res.status(403).json("身份认证不合法")
+        const q = "SELECT password FROM users WHERE id = ?"
+        db.query(q,[userInfo.id],(err,data)=>{
+            if(err)console.log(err)
+
+        })
+    })
 }
