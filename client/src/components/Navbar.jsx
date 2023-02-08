@@ -7,7 +7,7 @@ import {Button, message, notification, Space, Popover, Input, Empty,Affix} from 
 import {EditOutlined, SearchOutlined, UserOutlined} from "@ant-design/icons";
 import axios from "axios";
 import {httpInfo} from "../context/https";
-
+const color='#1677ff'
 const Navbar =()=>{
     const [messageApi, contextHolder2] = message.useMessage();
     const [api, contextHolder] = notification.useNotification();
@@ -83,7 +83,7 @@ const Navbar =()=>{
         });
     };
 
-    const [style1,setstyle1]=useState({color:"lightblue",fontWeight:"800",})
+    const [style1,setstyle1]=useState({color:color,fontWeight:"800",})
     const [style2,setstyle2]=useState({})
     const [style3,setstyle3]=useState({})
     const [style4,setstyle4]=useState({})
@@ -95,7 +95,7 @@ const Navbar =()=>{
         <div className='container1'>
             <div className='logo'>
                 <Link to="/" onClick={()=>{
-                    setstyle1({color:"#1677ff",fontWeight:"800",})
+                    setstyle1({color:color,fontWeight:"800",})
                     setstyle2({color:""})
                     setstyle3({color:""})
                     setstyle4({color:""})
@@ -113,28 +113,28 @@ const Navbar =()=>{
             <div className='links'>
                 <div className='linksDiv'>
                 <Link className='link' to='/?cat=blogs'><div className='linkDiv' tabIndex="1"  onClick={()=>{
-                    setstyle1({color:"#1677ff",fontWeight:"800",})
+                    setstyle1({color:color,fontWeight:"800",})
                     setstyle2({color:""})
                     setstyle3({color:""})
                     setstyle4({color:""})
                 }}><h6 style={style1}>博客</h6></div></Link>
                 <Link className='link' to='/?cat=writes'><div className='linkDiv' tabIndex="2" onClick={()=>{
                     setstyle1({color:""})
-                    setstyle2({color:"#1677ff",fontWeight:"800"})
+                    setstyle2({color:color,fontWeight:"800"})
                     setstyle3({color:""})
                     setstyle4({color:""})
                 }}><h6 style={style2}>笔记</h6></div></Link>
                 <Link className='link' to='/?cat=readings'><div className='linkDiv' tabIndex="3" onClick={()=>{
                     setstyle1({color:""})
                     setstyle2({color:""})
-                    setstyle3({color:"#1677ff",fontWeight:"800"})
+                    setstyle3({color:color,fontWeight:"800"})
                     setstyle4({color:""})
                 }}><h6 style={style3}>阅读</h6></div></Link>
                 <Link className='link' to='/?cat=games'><div className='linkDiv' tabIndex="4" onClick={()=>{
                     setstyle1({color:""})
                     setstyle2({color:""})
                     setstyle3({color:""})
-                    setstyle4({color:"#1677ff",fontWeight:"800"})
+                    setstyle4({color:color,fontWeight:"800"})
                 }}><h6 style={style4}>游戏</h6></div></Link>
                 </div>
                 {currentUser && <div className='navuserinfo'>

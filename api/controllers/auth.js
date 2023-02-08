@@ -56,12 +56,12 @@ export const updateinfo=(req,res)=>{
         if(err) return res.status(403).json("身份认证不合法")
         const q="UPDATE users SET `username`=? ,`signal`=?,`email`=? WHERE `id` = ?";
         db.query(q,[req.body.values.username,req.body.values.signal,req.body.values.email,userInfo.id],(err,data)=>{
-            if(err)console.log(err)
+            if(err)res.send(err)
         })
         // console.log(req.body.values)
         const q2 = "SELECT * FROM users WHERE id = ?"
         db.query(q2,[userInfo.id],(err,data)=>{
-            if(err)console.log(err)
+            if(err)res.send(err)
             const {password,...other} =data[0] //过滤数据库密码c
             other.token=token
             // console.log(other)
@@ -75,9 +75,21 @@ export const passwordchange=(req,res)=>{
     jwt.verify(token,"jwtkey",(err,userInfo)=>{
         if(err) return res.status(403).json("身份认证不合法")
         const q = "SELECT password FROM users WHERE id = ?"
+        const q2="UPDATE users SET `password`=? WHERE `id` = ?";
+        const salt=bcrypt.genSaltSync(10)
+        // const hash=bcrypt.hashSync(req.body.values.original,salt);
+        const hash2=bcrypt.hashSync(req.body.values.new,salt);
         db.query(q,[userInfo.id],(err,data)=>{
+            const isPasswordCorrect=bcrypt.compareSync(req.body.values.original,data[0].password)
+            // console.log(isPasswordCorrect)
+            if(!isPasswordCorrect) return res.status(400).json("原密码不正确")
+            if(isPasswordCorrect){
+                db.query(q2,[hash2,userInfo.id],(err)=>{
+                    if(err)return res.send(err)
+                })
+                res.send('change successful')
+            }
             if(err)console.log(err)
-
         })
     })
 }
