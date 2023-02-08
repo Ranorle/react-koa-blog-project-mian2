@@ -32,6 +32,8 @@ const Write =()=>{
     //文件手动上传
     const [uploading, setUploading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [uploading2, setUploading2] = useState(false);
+    const [isModalOpen2, setIsModalOpen2] = useState(false);
     const [upImg,setupImg]=useState(false)
     const [tagList, setTagList] = useState(tagsinfo);
     const[imgvalue,setimgvalue]=useState('')
@@ -43,8 +45,8 @@ const Write =()=>{
     ]
     let disabled=true
     function disabled1(){
-        if(title && value && cat) disabled= false
-        if(!(title && value && cat))disabled=true
+        if(title && value && cat ) disabled= false
+        if(!(title && value && cat ))disabled=true
     }
     disabled1()
 
@@ -99,7 +101,7 @@ const Write =()=>{
         }
     }
 
-    const handleClick = async e=> {
+    const handleClick1 = async e=> {
         try {
             const token=JSON.parse(sessionStorage.getItem('user')).token
             const imgUrl =await upload()
@@ -113,6 +115,7 @@ const Write =()=>{
                     tags:tagInfo,
                     intro:intro,
                     status:status,
+                    draft:0,
                 token:token,
                 })
                 : await axios.post(httpInfo+`/posts/`, {
@@ -124,6 +127,7 @@ const Write =()=>{
                    tags:tagInfo,
                     intro:intro,
                     status:status,
+                    draft:0,
                 token:token,
                 });
             message.success('发布成功');
@@ -135,14 +139,58 @@ const Write =()=>{
             setUploading(false);
         }
     }
-
+    const handleClick2 = async e=> {
+        try {
+            const token=JSON.parse(sessionStorage.getItem('user')).token
+            const imgUrl =await upload()
+            state
+                ? await axios.put(httpInfo+`/posts/${state.id}`, {
+                    title,
+                    desc: value,
+                    cat,
+                    img: file ? imgUrl : state.img,
+                    date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+                    tags:tagInfo,
+                    intro:intro,
+                    status:status,
+                    token:token,
+                    draft:1,
+                })
+                : await axios.post(httpInfo+`/posts/`, {
+                    title,
+                    desc: value,
+                    cat,
+                    img: file ? imgUrl : '',
+                    date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+                    tags:tagInfo,
+                    intro:intro,
+                    status:status,
+                    token:token,
+                    draft:1,
+                });
+            message.success('保存草稿成功,可在个人中心-文章管理处查看');
+            setUploading(false);
+            navagate(`/`)
+        } catch (err) {
+            message.error('保存草稿失败');
+            console.log(err);
+            setUploading(false);
+        }
+    }
     const handleImgUpload = async () => {
         setUploading(true);
-        await handleClick()
+        await handleClick1()
+    }
+    const handleImgUpload2 = async () => {
+        setUploading(true);
+        await handleClick2()
     }
 
     const showModal = () => {
         setIsModalOpen(true);
+    };
+    const showModal2 = () => {
+        setIsModalOpen2(true);
     };
     const handleOk = () => {
         setTimeout(() => {
@@ -150,7 +198,16 @@ const Write =()=>{
         }, 2000)
         handleImgUpload()
     };
+    const handleOk2 = () => {
+        setTimeout(() => {
+            setIsModalOpen(false);
+        }, 2000)
+        handleImgUpload2()
+    };
     const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel2 = () => {
         setIsModalOpen(false);
     };
     const getText = (html) =>{
@@ -177,6 +234,9 @@ const Write =()=>{
     return<div className='writediv'>
         <Modal centered={true} title="注意" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText="确认" cancelText="取消">
             <p>确认要发布吗？</p>
+        </Modal>
+        <Modal centered={true} title="注意" open={isModalOpen2} onOk={handleOk2} onCancel={handleCancel2} okText="确认" cancelText="取消">
+            <p>确认要保存草稿吗？</p>
         </Modal>
         <div className='writecontent'>
             <div className='titlediv'><div className='text'><p>标题:</p></div><Input type="text" value={getText(title)} placeholder='请输入标题' onChange={e=>setTitle(e.target.value)}/></div>
@@ -261,7 +321,15 @@ const Write =()=>{
                 </div>
             </Card>
             <div className='uploadButton'>
-            <Button size='large' onClick={()=>{message.info('肥肠抱歉,保存草稿功能还在完善中>_<')}}>保存草稿</Button>
+                <Button
+                    type="primary"
+                    onClick={showModal2}
+                    disabled={disabled}
+                    loading={uploading}
+                    size='large'
+                >
+                    {uploading ? '正在保存' : '保存草稿'}
+                </Button>
             <Button
                 type="primary"
                 onClick={showModal}

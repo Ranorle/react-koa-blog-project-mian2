@@ -3,10 +3,10 @@ import jwt from "jsonwebtoken"
 import fs from "fs"
 export const getPosts=(req,res)=>{
     // console.log(req.query)
-    const q1=req.query.cat ? "SELECT status, u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 OR `status`=0 AND `cat`= ? AND p.uid=?"
-        :"SELECT status, u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 OR `status`=0 AND `cat`= ? AND p.uid=?"
-    const q2=req.query.cat ? "SELECT status, u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 "
-        :"SELECT status, u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 "
+    const q1=req.query.cat ? "SELECT status, u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 AND `draft`=0 OR `status`=0 AND `cat`= ? AND p.uid=? AND `draft`=0"
+        :"SELECT status, u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 AND `draft`=0 OR `status`=0 AND `cat`= ? AND p.uid=? AND `draft`=0"
+    const q2=req.query.cat ? "SELECT status, u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 AND `draft`=0"
+        :"SELECT status, u.collection, p.uid, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE `cat`= ? AND `status`=1 AND `draft`=0"
         if(req.query.id)db.query(q1,[req.query.cat,req.query.cat,req.query.id],(err,data)=>{
     if (err) return res.status(500).send(err)
         return res.status(200).json(data)
@@ -18,7 +18,7 @@ export const getPosts=(req,res)=>{
 
 }
 export const getPost=(req,res)=>{
-    const q ="SELECT u.collection, p.status, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE p.id= ?"
+    const q ="SELECT `draft`,u.collection, p.status, p.id, `introduction`,`tags`,`username`, `title`, `desc`, p.img ,u.img AS userImg,`cat`, `date` FROM users u JOIN posts p ON u.id=p.uid WHERE p.id= ?"
     db.query(q,[req.params.id],(err,data)=>{
         if(err) return res.status(500).json(err)
         return res.status(200).json(data[0])
@@ -33,7 +33,7 @@ export const addPost=(req,res)=>{
         if (err) return res.status(403).json("Token is not valid!");
 
         const q =
-            "INSERT INTO posts(`title`, `desc`, `img`, `cat`, `date`,`uid`,`tags`,`introduction`,`status`) VALUES (?)";
+            "INSERT INTO posts(`title`, `desc`, `img`, `cat`, `date`,`uid`,`tags`,`introduction`,`status`,`draft`) VALUES (?)";
 
         const values = [
             req.body.title,
@@ -45,6 +45,7 @@ export const addPost=(req,res)=>{
             req.body.tags,
             req.body.intro,
             req.body.status,
+            req.body.draft,
         ];
         db.query(q, [values], (err, data) => {
             if (err) {
@@ -97,9 +98,9 @@ export const updatePost=(req,res)=>{
             })
         })
         const q2 =
-            "UPDATE posts SET `date`=?, `title`=?,`desc`=?,`img`=?,`cat`=?,`introduction`=?,`tags`=?,`status`=? WHERE `id` = ? AND `uid` = ?";
+            "UPDATE posts SET `date`=?, `title`=?,`desc`=?,`img`=?,`cat`=?,`introduction`=?,`tags`=?,`status`=?,`draft`=? WHERE `id` = ? AND `uid` = ?";
 
-        const values = [req.body.date,req.body.title, req.body.desc, req.body.img, req.body.cat,req.body.intro,req.body.tags,req.body.status,];
+        const values = [req.body.date,req.body.title, req.body.desc, req.body.img, req.body.cat,req.body.intro,req.body.tags,req.body.status,req.body.draft];
 
         db.query(q2, [...values, postId, userInfo.id], (err, data) => {
             if (err) return res.status(500).json(err);

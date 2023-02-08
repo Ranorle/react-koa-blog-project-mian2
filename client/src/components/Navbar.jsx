@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import Logo1 from "../img/logo1.png"
 import Logo2 from "../img/logo2.png"
 import {AuthContext} from "../context/authContext";
@@ -15,6 +15,7 @@ const Navbar =()=>{
     const [posts,setPosts] = useState([])
     const [value,setValue]=useState('')
     const cat = useLocation().search
+    const navigate=useNavigate()
     useEffect(()=>{
         const fetchData=async ()=>{
             try{
@@ -68,6 +69,7 @@ const Navbar =()=>{
                     setstyle4({color:""})
                         logout()
                     api.destroy(key)
+                    navigate('/')
                     messageApi.success('登出成功')
                 }}>
                     确定

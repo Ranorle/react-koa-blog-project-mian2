@@ -49,6 +49,7 @@ const Home =()=>{
     const {currentUser} = useContext(AuthContext)
     const [dateStrings,setdateStrings]=useState([])
     const [other,setOther]=useState([])
+
     useEffect(()=>{
         const fetchData=async ()=>{
             try{
@@ -173,6 +174,7 @@ const Home =()=>{
         }
         if(currentUser)handlePosts3()
         if(!currentUser)postData3=postData2
+        postData3=postData3.reverse()
         function handlePosts4(){
             const pageSize=10
             for(let i=page*pageSize-pageSize;(i<page*pageSize && i!==postData3.length);i++) {
@@ -184,7 +186,7 @@ const Home =()=>{
     handlePosts()
     //数据预处理
     // console.log(currentUser.collection.split(','))
-    let Cards= postData4.reverse().map((post)=>{
+    let Cards= postData4.map((post)=>{
             let t=[]
             function a(){
                 let v=[]

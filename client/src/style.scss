@@ -766,8 +766,20 @@ $lightGreen: #b9e7e7;
   }
 }
 .PersonalContentInfo {
-  width: 100%;
+  width:100%;
   min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .menu2{
+  min-width: 860px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .menu1{
+      min-width: 300px;
+    }
+  }
   .usercuurentinfo {
     width: 100%;
     height: 200px;
@@ -775,10 +787,8 @@ $lightGreen: #b9e7e7;
       padding: 50px 0px 0px 80px;
       display: flex;
       flex-direction: row;
-      gap: 40px
+      gap: 40px;
     }
-
-
 
     .baseInfo {
       display: flex;
@@ -802,7 +812,134 @@ $lightGreen: #b9e7e7;
     height: 340px;
     width: 100%;
   }
-  Menu{
-    margin-top: 1px;
+  .controldiv {
+    margin-top: 10px;
+    width: 96%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .divider:last-child{
+      margin: 14px 0;
+      border-color: white;
+    }
+    .CardDivs {
+      border-radius: 5px;
+      min-width: 600px;
+      color: black;
+      font-style: normal;
+      text-decoration: rgba(255, 255, 255, 0);
+      display: flex;
+      flex-direction: row;
+      justify-content: left;
+      background-color: white;
+      width: 800px;
+      height: 130px;
+      margin: 0px 0 0px 12px;
+      //border-style: solid;
+      //border-color: rgba(0,0,0,0.15);
+      //border-width: 1px;
+      //box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.03), 0 4px 20px 0 rgba(0, 0, 0, 0.03);
+      transition: all .2s;
+
+      .CardImg {
+        margin: 6.4px;
+        min-width: 166px;
+        height: 114.8px;
+
+        .BlogImg {
+          width: 166px;
+          height: 100%;
+          object-fit: cover;
+          border: none;
+        }
+
+        .Empty {
+          border: none;
+          width: 100%;
+          height: 100%;
+
+        }
+      }
+
+      .CardInfo {
+        display: flex;
+        flex-direction: column;
+        width: 620px;
+
+        .CardTitle {
+          margin-top: 10px;
+          justify-content: center;
+          align-items: center;
+          padding: 6px 0 0 14px;
+
+          span {
+            font-size: 24px;
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+          }
+
+          height: 48px;
+          width: 620px;
+        }
+
+        .CardInfomin {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          .edit {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            padding-right: 30px;
+          }
+
+          .CardComment {
+            height: 48px;
+            color: gray;
+            padding: 0px 0 0 16px;
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+            width: 300px;
+
+            .p1 {
+              font-size: 13px;
+            }
+
+            .p2 {
+              font-size: 14px;
+              margin-top: 6px;
+
+              span {
+                margin-right: 8px;
+              }
+            }
+          }
+
+
+        }
+
+        .CardInfodet {
+          width: 640px;
+          color: gray;
+          padding: 4px 0 22px 16px;
+          height: 17.6px;
+          text-align: left;
+          line-height: 16px;
+          font-size: 15px;
+          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+        }
+      }
+    }
+    .divider{
+      margin: 14px 0;
+      border-color: lightgray;
+    }
   }
+}
+.outside{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 30px;
 }
