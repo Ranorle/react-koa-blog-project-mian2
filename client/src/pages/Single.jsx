@@ -37,7 +37,7 @@ const Single =()=>{
     const location = useLocation()
     const navigate=useNavigate()
     const postId =location.pathname.split("/")[2]
-    let {currentUser} =useContext(AuthContext)
+    let {currentUser,changecollectionyes,changecollectionno} =useContext(AuthContext)
     if(currentUser===null) currentUser={ //为解决currentUser不存在会导致single页面无法显示的bug
         "id": -1,
         "username": "",
@@ -52,7 +52,7 @@ const Single =()=>{
             try {
                 const res = await axios.get(httpInfo+`/posts/${postId}`);
                 setPost(res.data);
-                if(res.data.collection.split(',').includes(`${res.data.id}`)){
+                if(currentUser.collection.split(',').includes(`${res.data.id}`)){
                     setIcon(<StarFilled style={{color:'#ffd700'}}/>)
                     seticonbool(true)
                     // console.log('设置收藏成功')
@@ -125,33 +125,18 @@ const Single =()=>{
             ></h1>
                 {currentUser.id!==-1 && <Button icon={icon} onClick={async () => {
                     if (!iconbool) {
-                        let x = post.collection.split(',')
+                        let x = currentUser.collection.split(',')
                         x.push(`${post.id}`)
                         x = Array.from(new Set(x))
                         x = x.toString();
-                        try {
-                            await axios.post(httpInfo + `/collection`, {x, currentUser})
-                            setIcon(<StarFilled style={{color: '#ffd700'}}/>)
-                            seticonbool(true)
-                            message.success('收藏成功！')
-                        } catch (err) {
-                            if (err) console.log(err)
-                        }
+                        changecollectionyes({x, currentUser},setIcon,seticonbool)
                     }
                     if (iconbool) {
-                        let x = post.collection.split(',')
+                        let x = currentUser.collection.split(',')
                         x.remove(`${post.id}`)
                         x = Array.from(new Set(x))
                         x = x.toString();
-                        try {
-                            await axios.post(httpInfo + `/collection`, {x, currentUser})
-                            setIcon(<StarOutlined style={{color: '#777'}}/>)
-                            seticonbool(false)
-                            message.info('取消收藏')
-                        } catch (err) {
-                            if (err) console.log(err)
-                        }
-
+                        changecollectionno({x, currentUser},setIcon,seticonbool)
                     }
                 }}>收藏</Button>}
             </div>
@@ -211,37 +196,6 @@ const Single =()=>{
                     __html: DOMPurify.sanitize(post.title),
                 }}
                 ></h1>
-                {currentUser.id!==-1 && <Button icon={icon} onClick={async () => {
-                    if (!iconbool) {
-                        let x = post.collection.split(',')
-                        x.push(`${post.id}`)
-                        x = Array.from(new Set(x))
-                        x = x.toString();
-                        try {
-                            await axios.post(httpInfo + `/collection`, {x, currentUser})
-                            setIcon(<StarFilled style={{color: '#ffd700'}}/>)
-                            seticonbool(true)
-                            message.success('收藏成功！')
-                        } catch (err) {
-                            if (err) console.log(err)
-                        }
-                    }
-                    if (iconbool) {
-                        let x = post.collection.split(',')
-                        x.remove(`${post.id}`)
-                        x = Array.from(new Set(x))
-                        x = x.toString();
-                        try {
-                            await axios.post(httpInfo + `/collection`, {x, currentUser})
-                            setIcon(<StarOutlined style={{color: '#777'}}/>)
-                            seticonbool(false)
-                            message.info('取消收藏')
-                        } catch (err) {
-                            if (err) console.log(err)
-                        }
-
-                    }
-                }}>收藏</Button>}
             </div>
             <div className='user'>
                 {post.userImg &&<img src={post.userImg}/>}

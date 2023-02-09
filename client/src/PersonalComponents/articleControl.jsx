@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from "react";
 import {CheckSquareOutlined, FormOutlined} from '@ant-design/icons';
 import {Button, Divider, Empty, Menu, Tag, DatePicker, Segmented, Modal, message} from 'antd';
 import { useState } from 'react';
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {httpInfo} from "../context/https";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -55,9 +55,7 @@ const rangePresets = [
 ];
 
 const ArticleControl=()=>{
-    // const navigate=useNavigate()
-    // const location=useLocation()
-    const [w,setw]=useState(1)
+
     const handleDelete=async (postId)=>{
         try{
             const token=JSON.parse(sessionStorage.getItem('user')).token
@@ -230,7 +228,7 @@ const ArticleControl=()=>{
 
     </div>
     <div className='pageNationDiv'>
-        <Pagination  size="medium" total={postData3.length}  defaultPageSize={6} showPageSize={false} totalContent={false} onChange={(info)=>{
+        <Pagination  size="medium" total={postData2.length}  defaultPageSize={6} showPageSize={false} totalContent={false} onChange={(info)=>{
             setPage(info.current)
         }
         } showJumper />

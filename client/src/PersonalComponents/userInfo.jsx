@@ -1,11 +1,83 @@
 import React, {useContext, useState} from "react";
 import {AuthContext} from "../context/authContext";
-import {UserOutlined} from "@ant-design/icons";
-import {Avatar, Button, Modal, Divider, Form, Input,message,Watermark } from "antd";
-
-
+import {UserOutlined, PlusOutlined, LoadingOutlined, UploadOutlined} from "@ant-design/icons";
+import {Avatar, Button, Modal, Divider, Form, Input,message,Watermark,Upload } from "antd";
+import {httpInfo} from "../context/https";
+import axios from "axios";
+const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+    });
 const UserInfo=()=>{
-    let {currentUser,changeinfo,changepassword} =useContext(AuthContext)
+    const [fileList, setFileList] = useState([]);
+    const [fileList2, setFileList2] = useState([]);
+    const [uploading, setUploading] = useState(false);
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [previewTitle, setPreviewTitle] = useState('');
+    const handleCancel2 = () => setPreviewOpen(false);
+
+    const handlePreview = async (file) => {
+        if (!file.url && !file.preview) {
+            file.preview =await getBase64(file.originFileObj);
+        }
+        setPreviewImage(file.url || file.preview);
+        setPreviewOpen(true);
+        setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+    };
+
+    // console.log(fileList)
+    const uploadButton = (
+        <div>
+            <PlusOutlined />
+            <div
+                style={{
+                    marginTop: 8,
+                }}
+            >
+                点击此处上传
+            </div>
+        </div>
+    );
+
+    const handleUpload = async () => {
+        const formData = new FormData();
+        fileList.forEach((file) => {
+            formData.append('file', file);
+        });
+        setUploading(true);
+        postavatar(formData,setFileList,setUploading)
+    };
+    const handleChange = ({ fileList: newFileList }) => setFileList2(newFileList);
+
+    const props = {
+        onRemove: (file) => {
+            const index = fileList.indexOf(file);
+            const newFileList = fileList.slice();
+            newFileList.splice(index, 1);
+            setFileList(newFileList);
+        },
+        beforeUpload: (file) => {
+            setFileList([...fileList, file]);
+            return false;
+        },
+        fileList,
+    };
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+    let {currentUser,changeinfo,changepassword,postavatar} =useContext(AuthContext)
     const CollectionCreateForm = ({ open, onCreate, onCancel }) => {
         const [form] = Form.useForm();
         return (
@@ -169,6 +241,32 @@ const UserInfo=()=>{
         setOpen2(false);
     };
     return<div className='PersonalContentInfo'>
+        <Modal title="更改头像" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} >
+            <p>注意：图片仅能为png/jpeg/jpg格式，图片路径及名称中不得有中文</p>
+            <Upload {...props} listType="picture-card" fileList={fileList2} onPreview={handlePreview} onChange={handleChange}>
+                {fileList2.length >= 1 ? null : uploadButton}
+            </Upload>
+            <Button
+                type="primary"
+                onClick={handleUpload}
+                disabled={fileList.length === 0}
+                loading={uploading}
+                style={{
+                    marginTop: 16,
+                }}
+            >
+                {uploading ? '正在上传' : '上传更改头像'}
+            </Button>
+        </Modal>
+        <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel2}>
+            <img
+                alt="example"
+                style={{
+                    width: '100%',
+                }}
+                src={previewImage}
+            />
+        </Modal>
         <CollectionCreateForm
             open={open}
             onCreate={onCreate}
@@ -185,7 +283,9 @@ const UserInfo=()=>{
         />
         <div className='usercuurentinfo'>
         <div className='baseInfo'>
-        <Avatar size={64} icon={<UserOutlined />} src={currentUser.img} />
+        <div className='avatar'><Avatar size={64} icon={<UserOutlined />} src={currentUser.img} />
+            <Button onClick={showModal}>更换头像</Button>
+            </div>
             <div className='baseInfotext'>
                 <h3>{currentUser.username}</h3>
                 <p>个性签名:{currentUser.signal}</p>

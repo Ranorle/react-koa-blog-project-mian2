@@ -1,4 +1,3 @@
-import fs from 'fs'
 import express from "express";
 import multer from "multer";
 const router =express.Router()
@@ -14,7 +13,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post("/", upload.single("file"), function (req, res) {
+router.post("/", upload.single('file'), function (req, res) {
     const file = req.file;
     let x
     if(file) x=file.filename

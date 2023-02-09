@@ -780,11 +780,22 @@ $lightGreen: #b9e7e7;
       min-width: 300px;
     }
   }
+  .menu3{
+    margin-top: 7px;
+    min-width: 860px;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    .menu1{
+      min-width: 300px;
+    }
+  }
+
   .usercuurentinfo {
     width: 100%;
     height: 200px;
     .changeDiv {
-      padding: 50px 0px 0px 80px;
+      padding: 20px 0px 0px 180px;
       display: flex;
       flex-direction: row;
       gap: 40px;
@@ -794,7 +805,13 @@ $lightGreen: #b9e7e7;
       display: flex;
       flex-direction: row;
       padding: 50px 0px 0px 60px;
-
+      .avatar{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap:10px;
+      }
       .baseInfotext {
         display: flex;
         flex-direction: column;
@@ -804,6 +821,7 @@ $lightGreen: #b9e7e7;
         p {
           font-size: 14px;
           color: #777;
+
         }
       }
     }
@@ -942,4 +960,12 @@ $lightGreen: #b9e7e7;
   justify-content: center;
   align-items: center;
   padding-bottom: 30px;
+}
+.DataInfo{
+  width:100%;
+  min-height: 600px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
