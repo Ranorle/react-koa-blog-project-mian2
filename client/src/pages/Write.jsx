@@ -274,11 +274,11 @@ const Write =()=>{
                     setimgvalue('')
                 }}>取消上传</Button></label></div>}
             </div>
-            <Card title='请选择上传组别' className='item2'>
-                <div className="cat">
+            <Card  title='请选择上传组别' className='item2'>
+                <div  className="cat">
                     <Radio.Group  name="radiogroup1" defaultValue={catinfo}>
                         {options.map((item) => (
-                            <Radio.Button key={item.value}  onChange={(value) => {
+                            <Radio.Button style={{zIndex:'0'}} key={item.value}  onChange={(value) => {
                                 // console.log(value)
                                 setCat(value.target.value)}}
                                    value={item.value} >
@@ -293,10 +293,10 @@ const Write =()=>{
                     <Radio.Group  name="radiogroup2" onChange={(value)=>{console.log(value.target.value)
                     setStatus(value.target.value)
                     }} defaultValue={status}>
-                        <Radio.Button value={1} >
+                        <Radio.Button style={{zIndex:'0'}} value={1} >
                             公开
                         </Radio.Button>
-                        <Radio.Button value={0} >
+                        <Radio.Button style={{zIndex:'0'}} value={0} >
                             私人
                         </Radio.Button>
                     </Radio.Group>

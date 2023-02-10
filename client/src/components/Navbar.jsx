@@ -91,7 +91,7 @@ const Navbar =()=>{
     const [style4,setstyle4]=useState({})
     // console.log(currentUser)
     // console.log(style)
-    return<Affix offsetTop={0.000001}><div className='navbar'>
+    return<div className='navbar'>
         {contextHolder}
         {contextHolder2}
         <div className='container1'>
@@ -167,6 +167,6 @@ const Navbar =()=>{
                 }>Write</Button></Link>}
             </div>
         </div>
-    </div></Affix>
+    </div>
 }
 export default Navbar

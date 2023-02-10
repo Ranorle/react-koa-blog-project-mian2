@@ -145,6 +145,7 @@ const Home =()=>{
         }
         if(dateStrings) handlePosts2()
         if(dateStrings.length===0) postData2=postData1
+        if(dateStrings[0]===''&& dateStrings[1]==='') postData2=postData1
         function handlePosts3(){
             let data1=[]
             let data2=[]

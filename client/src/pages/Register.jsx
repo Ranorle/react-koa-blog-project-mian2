@@ -69,7 +69,7 @@ const Register =()=>{
             <Input required type="email" placeholder='email' name='email' onChange={handleChange}/>
             <Input.Password size="large" required type="password" placeholder='password' name='password' onChange={handleChange}/>
             {/*<button onClick={handleSubmit}>Register</button>*/}
-            <button onClick={handleSubmit}>Register</button>
+            <button onClick={showModal}>Register</button>
             <Modal title="肥肠抱歉" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <p>注册功能未开放，请与管理者联系</p>
             </Modal>
